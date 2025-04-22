@@ -452,7 +452,8 @@ class FrameSliceImagingExtractor(ImagingExtractor):
             "Negative slicing semantics are not supported."
         )
         start_frame_shifted = start_frame + self._start_frame
-        return self._parent_imaging.get_video(start_frame=start_frame_shifted, end_frame=end_frame, channel=channel)
+        return self._parent_imaging.get_video(start_frame=start_frame_shifted, end_frame=end_frame)
+        # return self._parent_imaging.get_video(start_frame=start_frame_shifted, end_frame=end_frame, channel=channel)
 
     def get_image_shape(self) -> Tuple[int, int]:
         """Get the shape of the video frame (num_rows, num_columns).
