@@ -442,8 +442,8 @@ class FrameSliceImagingExtractor(ImagingExtractor):
     def get_frames(self, frame_idxs: ArrayType, channel: Optional[int] = 0) -> np.ndarray:
         assert max(frame_idxs) < self._num_samples, "'frame_idxs' range beyond number of available frames!"
         mapped_frame_idxs = np.array(frame_idxs) + self._start_frame
-        return self._parent_imaging.get_frames(frame_idxs=mapped_frame_idxs, channel=channel)
-
+        return self._parent_imaging.get_frames(frame_idxs=mapped_frame_idxs)
+        # return self._parent_imaging.get_frames(frame_idxs=mapped_frame_idxs, channel=channel)
     def get_video(
         self, start_frame: Optional[int] = None, end_frame: Optional[int] = None, channel: Optional[int] = 0
     ) -> np.ndarray:
