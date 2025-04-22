@@ -33,6 +33,7 @@ from .extractors.miniscopeimagingextractor import MiniscopeImagingExtractor
 from .multisegmentationextractor import MultiSegmentationExtractor
 from .multiimagingextractor import MultiImagingExtractor
 from .volumetricimagingextractor import VolumetricImagingExtractor
+from .extractors.mfhextractor import MFHSegmentationExtractor
 
 imaging_extractor_full_list = [
     NumpyImagingExtractor,
@@ -64,6 +65,7 @@ segmentation_extractor_full_list = [
     ExtractSegmentationExtractor,
     SimaSegmentationExtractor,
     CaimanSegmentationExtractor,
+    MFHSegmentationExtractor,
 ]
 
 imaging_extractor_dict = {imaging_class.extractor_name: imaging_class for imaging_class in imaging_extractor_full_list}
