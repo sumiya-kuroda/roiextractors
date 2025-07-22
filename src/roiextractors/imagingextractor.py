@@ -216,11 +216,11 @@ class ImagingExtractor(ABC):
         dtype: dtype
             Data type of the video.
         """
-        return self.get_frames(frame_idxs=[0], channel=0).dtype
+        return self.get_frames(frame_idxs=[0]).dtype
 
     @abstractmethod
     def get_video(
-        self, start_frame: Optional[int] = None, end_frame: Optional[int] = None, channel: int = 0
+        self, start_frame: Optional[int] = None, end_frame: Optional[int] = None
     ) -> np.ndarray:
         """Get the video frames.
 
@@ -252,15 +252,9 @@ class ImagingExtractor(ABC):
 
         Where x is the columns width or and y is the rows or height.
         """
-        if channel != 0:
-            warnings.warn(
-                "The 'channel' parameter in get_video() is deprecated and will be removed in August 2025.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
         pass
 
-    def get_frames(self, frame_idxs: ArrayType, channel: Optional[int] = 0) -> np.ndarray:
+    def get_frames(self, frame_idxs: ArrayType) -> np.ndarray:
         """Get specific video frames from indices (not necessarily continuous).
 
         Parameters
@@ -275,17 +269,11 @@ class ImagingExtractor(ABC):
         frames: numpy.ndarray
             The video frames.
         """
-        if channel != 0:
-            warnings.warn(
-                "The 'channel' parameter in get_frames() is deprecated and will be removed in August 2025.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
         assert max(frame_idxs) <= self.get_num_samples(), "'frame_idxs' exceed number of samples"
         if np.all(np.diff(frame_idxs) == 0):
             return self.get_video(start_frame=frame_idxs[0], end_frame=frame_idxs[-1])
         relative_indices = np.array(frame_idxs) - frame_idxs[0]
-        return self.get_video(start_frame=frame_idxs[0], end_frame=frame_idxs[-1] + 1)[relative_indices, ..., channel]
+        return self.get_video(start_frame=frame_idxs[0], end_frame=frame_idxs[-1] + 1)[relative_indices, ..., 0]
 
     def frame_to_time(self, frames: Union[FloatType, np.ndarray]) -> Union[FloatType, np.ndarray]:
         """Convert user-inputted frame indices to times with units of seconds.
@@ -439,13 +427,13 @@ class FrameSliceImagingExtractor(ImagingExtractor):
         if getattr(self._parent_imaging, "_times") is not None:
             self._times = self._parent_imaging._times[start_frame:end_frame]
 
-    def get_frames(self, frame_idxs: ArrayType, channel: Optional[int] = 0) -> np.ndarray:
+    def get_frames(self, frame_idxs: ArrayType) -> np.ndarray:
         assert max(frame_idxs) < self._num_samples, "'frame_idxs' range beyond number of available frames!"
         mapped_frame_idxs = np.array(frame_idxs) + self._start_frame
         return self._parent_imaging.get_frames(frame_idxs=mapped_frame_idxs)
         # return self._parent_imaging.get_frames(frame_idxs=mapped_frame_idxs, channel=channel)
     def get_video(
-        self, start_frame: Optional[int] = None, end_frame: Optional[int] = None, channel: Optional[int] = 0
+        self, start_frame: Optional[int] = None, end_frame: Optional[int] = None
     ) -> np.ndarray:
         assert start_frame >= 0, (
             f"'start_frame' must be greater than or equal to zero! Received '{start_frame}'.\n"
