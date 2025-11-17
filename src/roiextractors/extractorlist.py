@@ -31,6 +31,7 @@ from .extractors.memmapextractors import NumpyMemmapImagingExtractor
 from .extractors.memmapextractors import MemmapImagingExtractor
 from .extractors.minian import MinianSegmentationExtractor
 from .extractors.miniscopeimagingextractor import MiniscopeImagingExtractor, MiniscopeMultiRecordingImagingExtractor
+from .extractors.photonmosaicextractor import PMSuite2pSegmentationExtractor
 from .multisegmentationextractor import MultiSegmentationExtractor
 from .multiimagingextractor import MultiImagingExtractor
 from .volumetricimagingextractor import VolumetricImagingExtractor
@@ -68,6 +69,7 @@ segmentation_extractor_full_list = [
     CaimanSegmentationExtractor,
     InscopixSegmentationExtractor,
     MinianSegmentationExtractor,
+    PMSuite2pSegmentationExtractor,
 ]
 
 imaging_extractor_dict = {imaging_class.extractor_name: imaging_class for imaging_class in imaging_extractor_full_list}
