@@ -11,4 +11,4 @@ MFHSegmentationExtractor
     A segmentation extractor for MFH 2p preprocessing pipeline.
 """
 
-from .mfhsegmentationextractor import MFHSegmentationExtractor
+from .mfhsegmentationextractor import PMSuite2pSegmentationExtractor
