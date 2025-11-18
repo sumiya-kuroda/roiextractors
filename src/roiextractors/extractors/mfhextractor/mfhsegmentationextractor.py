@@ -163,7 +163,7 @@ class PMSuite2pSegmentationExtractor(SegmentationExtractor):
 
         self._roi_response_raw = self._load_npy(file_name=fluorescence_traces_file_name, mmap_mode="r", transpose=True)
         self._roi_response_neuropil = self._load_npy(file_name=neuropil_traces_file_name, mmap_mode="r", transpose=True)
-        self._roi_response_dff = self._load_npy(file_name=dff_file_name, mmap_mode="r", transpose=False,
+        self._roi_response_dff = self._load_npy(file_name=dff_file_name, mmap_mode="r", transpose=True,
                                                  folder_name='dff')
 
         self._roi_response_deconvolved = (
