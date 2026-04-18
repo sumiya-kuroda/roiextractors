@@ -166,13 +166,10 @@ class PMSuite2pSegmentationExtractor(SegmentationExtractor):
         self._roi_response_dff = self._load_npy(file_name=dff_file_name, mmap_mode="r", transpose=True,
                                                  folder_name='dff')
 
-        self._roi_response_deconvolved = (
-            (
-                self._load_npy(file_name="spike_prob.npy", mmap_mode="r", transpose=True, folder_name="cascade")
-                or self._load_npy(file_name="spks.npy", mmap_mode="r", transpose=True)
-            )
-            if channel_name == "chan1" else None
-        )
+        deconvolved = self._load_npy(file_name="spike_prob.npy", mmap_mode="r", transpose=True, folder_name="cascade")
+        if deconvolved is None:
+            deconvolved = self._load_npy(file_name="spks.npy", mmap_mode="r", transpose=True)
+        self._roi_response_deconvolved = deconvolved
 
         # rois segmented from the iamging acquired with second channel (red/anatomical) that match the first channel segmentation
         redcell = self._load_npy(file_name="redcell.npy", mmap_mode="r")
